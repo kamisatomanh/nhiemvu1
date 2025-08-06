@@ -9,7 +9,7 @@ import {
   Link,
 } from "@mui/material";
 
-const Login = () => {
+const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -106,7 +106,7 @@ const Login = () => {
               onClick={handleClickLogin}
               variant="body2"
             >
-              Đăng ký
+              Đăng nhập
             </Link>
           </Box>
         </form>
@@ -115,4 +115,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;

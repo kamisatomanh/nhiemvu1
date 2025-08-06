@@ -37,8 +37,10 @@ const Login = () => {
         <form onSubmit={handleSubmit}>
           <Box mb={2}>
             <TextField
+              id="email"
               label="Email"
               type="email"
+              autoComplete="email"
               fullWidth
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -47,6 +49,7 @@ const Login = () => {
           </Box>
           <Box mb={2}>
             <TextField
+              id="password"
               label="Mật khẩu"
               type="password"
               fullWidth
@@ -55,7 +58,13 @@ const Login = () => {
               required
             />
           </Box>
-          <Button variant="contained" color="primary" type="submit" fullWidth>
+          <Button
+            //onClick={validateInputs}
+            variant="contained"
+            color="primary"
+            type="submit"
+            fullWidth
+          >
             Đăng nhập
           </Button>
           <Box
