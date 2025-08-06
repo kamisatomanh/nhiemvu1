@@ -6,6 +6,7 @@ import {
   TextField,
   Typography,
   Paper,
+  Link,
 } from "@mui/material";
 
 const Login = () => {
@@ -17,6 +18,14 @@ const Login = () => {
     console.log("Email:", email);
     console.log("Password:", password);
     // TODO: Gửi request đăng nhập
+  };
+
+  const handleClickSignUp = () => {
+    console.log("Đăng ký");
+  };
+
+  const handleClickForgotPassword = () => {
+    console.log("Quen mat khau");
   };
 
   return (
@@ -49,6 +58,31 @@ const Login = () => {
           <Button variant="contained" color="primary" type="submit" fullWidth>
             Đăng nhập
           </Button>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              width: "100%",
+              mt: 1,
+            }}
+          >
+            <Link
+              component="button"
+              type="button"
+              onClick={handleClickForgotPassword}
+              variant="body2"
+            >
+              Quên mật khẩu
+            </Link>
+            <Link
+              component="button"
+              type="button"
+              onClick={handleClickSignUp}
+              variant="body2"
+            >
+              Đăng ký
+            </Link>
+          </Box>
         </form>
       </Paper>
     </Container>
