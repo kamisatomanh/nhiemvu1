@@ -1,12 +1,13 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import CssBaseline from "@mui/material/CssBaseline";
-//import SignUp from "./auth/signup";
-//import Login from "./auth/login";
-import Forgort from "./auth/forgotpassword";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <CssBaseline />
-    <Forgort />
+    <BrowserRouter>
+      <CssBaseline />
+      <App />
+    </BrowserRouter>
   </StrictMode>
 );
