@@ -8,6 +8,7 @@ import {
   Paper,
   Link,
 } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -20,13 +21,13 @@ const Login = () => {
     // TODO: Gửi request đăng nhập
   };
 
-  const handleClickSignUp = () => {
-    console.log("Đăng ký");
-  };
+  // const handleClickSignUp = () => {
+  //   console.log("Đăng ký");
+  // };
 
-  const handleClickForgotPassword = () => {
-    console.log("Quen mat khau");
-  };
+  // const handleClickForgotPassword = () => {
+  //   console.log("Quen mat khau");
+  // };
 
   return (
     <Container maxWidth="sm">
@@ -76,17 +77,17 @@ const Login = () => {
             }}
           >
             <Link
-              component="button"
+              component={RouterLink}
+              to="/forgotpassword"
               type="button"
-              onClick={handleClickForgotPassword}
               variant="body2"
             >
               Quên mật khẩu
             </Link>
             <Link
-              component="button"
+              component={RouterLink}
+              to="/signup"
               type="button"
-              onClick={handleClickSignUp}
               variant="body2"
             >
               Đăng ký

@@ -8,6 +8,7 @@ import {
   Paper,
   Link,
 } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -28,9 +29,9 @@ const SignUp = () => {
     // TODO: Gửi request đăng ký
   };
 
-  const handleClickLogin = () => {
-    console.log("Đăng nhập");
-  };
+  // const handleClickLogin = () => {
+  //   console.log("Đăng nhập");
+  // };
 
   return (
     <Container maxWidth="sm">
@@ -101,9 +102,9 @@ const SignUp = () => {
           </Button>
           <Box>
             <Link
-              component="button"
+              component={RouterLink}
+              to="/login"
               type="button"
-              onClick={handleClickLogin}
               variant="body2"
             >
               Đăng nhập

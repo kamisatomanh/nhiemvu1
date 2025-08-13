@@ -8,6 +8,7 @@ import {
   Paper,
   Link,
 } from "@mui/material";
+import { Link as RouterLink } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -18,9 +19,9 @@ const Login = () => {
     // TODO: Gửi request forgot password
   };
 
-  const handleClickLogin = () => {
-    console.log("đăng nhập");
-  };
+  // const handleClickLogin = () => {
+  //   console.log("đăng nhập");
+  // };
 
   return (
     <Container maxWidth="sm">
@@ -52,9 +53,9 @@ const Login = () => {
           </Button>
           <Box>
             <Link
-              component="button"
+              component={RouterLink}
+              to="/login"
               type="button"
-              onClick={handleClickLogin}
               variant="body2"
             >
               đăng nhập
