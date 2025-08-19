@@ -9,16 +9,41 @@ import {
   Link,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
-    // TODO: Gửi request đăng nhập
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const text = await response.text(); // lấy text trước để debug
+      console.log("Raw response:", text);
+
+      const data = JSON.parse(text); // parse JSON thủ công
+      console.log("Parsed JSON:", data);
+
+      localStorage.setItem("token", data.access_token);
+      localStorage.setItem("role", data.user.role);
+      if (response.ok) {
+        // Đăng nhap thanh cong, chuyen huong den trang admin
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   // const handleClickSignUp = () => {

@@ -28,6 +28,13 @@ class AuthController extends Controller
             'role' => $user->role,
         ];
         $token = $guard->claims($customClaims)->attempt($credentials);
+        $data = [
+            'name' => $user->name,
+            'email' => $user->email,
+            'id' => $user->id,
+            'role' => $user->role,
+        ];
+
 
         return $this->respondWithToken($token);
     }
@@ -39,6 +46,7 @@ class AuthController extends Controller
 
         return response()->json([
             'access_token' => $token,
+            'user' => $guard->user(),
             'token_type'   => 'bearer',
             'expires_in'   => $guard->factory()->getTTL() * 60
         ]);

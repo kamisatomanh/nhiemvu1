@@ -5,6 +5,7 @@ import Client from "./client/Client";
 import Login from "./auth/Login";
 import SignUp from "./auth/Signup";
 import ForgotPassword from "./auth/ForgotPassword";
+import Admin from "./admin/Admin";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/forgotpassword" element={<ForgotPassword />} />
+        <Route path="/admin" element={<Admin />} />
       </Routes>
     </>
   );
