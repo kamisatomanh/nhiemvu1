@@ -83,13 +83,22 @@ class AuthController extends Controller
             'name'     => 'required|string|max:255',
             'email'    => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
-            'confirm_password' => 'required|string|min:6|same:password',
+            'confirmPassword' => 'required|string|min:6|same:password',
         ]);
+        if ($request->hasFile('avatar')) {
+            $file = $request->file('avatar');
+            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
 
+            $file->move(public_path('uploads/avatars'), $filename);
+
+            // Đường dẫn để lưu DB
+            $avatar = 'uploads/avatars/' . $filename;
+        }
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            'avatar' => $avatar
         ]);
         /** @var JWTGuard $guard */
         $guard = auth();

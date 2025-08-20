@@ -11,6 +11,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
+import Divider from "@mui/material/Divider";
 
 import { Link, useNavigate } from "react-router-dom";
 
@@ -19,10 +20,12 @@ const pages = ["Home", "About", "Blog", "Contact"];
 const Nav = () => {
   const isLoggedIn = localStorage.getItem("token");
   const role = localStorage.getItem("role");
-  const [user] = React.useState<{ name: string; avatar: string }>({
-    name: "John Doe",
-    avatar: "https://i.pravatar.cc/40",
-  });
+  const storedUser = localStorage.getItem("user");
+  const user = JSON.parse(storedUser || "{}");
+  // const [user] = React.useState<{ name: string; avatar: string }>({
+  //   name: "John Doe",
+  //   avatar: "https://i.pravatar.cc/40",
+  // });
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
     null
   );
@@ -50,7 +53,7 @@ const Nav = () => {
   const handleLogout = async () => {
     try {
       await fetch("http://127.0.0.1:8000/api/auth/logout", {
-        method: "GET",
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -58,6 +61,7 @@ const Nav = () => {
       });
       localStorage.removeItem("token");
       localStorage.removeItem("role");
+      localStorage.removeItem("user");
       navigator("/login"); // Chuyen huong ve trang login
     } catch (error) {
       console.error("Error:", error);
@@ -133,7 +137,10 @@ const Nav = () => {
               <>
                 <Tooltip title="User settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt={user.name} src={user.avatar} />
+                    <Avatar
+                      alt={user.name}
+                      src={`http://localhost:8000/${user.avatar}`}
+                    />
                   </IconButton>
                 </Tooltip>
                 <Menu
@@ -141,12 +148,13 @@ const Nav = () => {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
+                  <MenuItem onClick={handleCloseUserMenu}>{user.name}</MenuItem>
+                  <Divider />
                   {role === "admin" && (
                     <MenuItem onClick={() => navigator("/admin")}>
                       Admin
                     </MenuItem>
                   )}
-                  <MenuItem onClick={handleCloseUserMenu}>Profile</MenuItem>
                   <MenuItem onClick={handleCloseUserMenu}>Settings</MenuItem>
                   <MenuItem onClick={handleLogout}>Logout</MenuItem>
                 </Menu>

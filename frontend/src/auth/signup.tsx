@@ -7,26 +7,55 @@ import {
   Typography,
   Paper,
   Link,
+  Avatar,
 } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [fullName, setFullName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [birthday, setBirthday] = useState("");
+  const [name, setName] = useState("");
+  const [avatar, setAvatar] = useState<File | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const navigate = useNavigate();
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Email:", email);
-    console.log("Password:", password);
-    console.log("Confirm Password:", confirmPassword);
-    console.log("Full Name:", fullName);
-    console.log("Phone Number:", phoneNumber);
-    console.log("Birthday:", birthday);
-    // TODO: Gửi request đăng ký
+    try {
+      const formData = new FormData();
+      formData.append("email", email);
+      formData.append("password", password);
+      formData.append("confirmPassword", confirmPassword);
+      formData.append("name", name);
+      if (avatar) {
+        formData.append("avatar", avatar); // gửi file avatar
+      }
+      const response = await fetch("http://127.0.0.1:8000/api/auth/register", {
+        method: "POST",
+        // headers: {
+        //   "Content-Type": "application/json",
+        //   Accept: "application/json",
+        // },
+        body: formData,
+      });
+
+      const text = await response.text(); // lấy text trước để debug
+      console.log("Raw response:", text);
+
+      const data = JSON.parse(text); // parse JSON thủ công
+      console.log("Parsed JSON:", data);
+
+      localStorage.setItem("token", data.access_token);
+      localStorage.setItem("role", data.user.role);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      if (response.ok) {
+        // Đăng nhap thanh cong, chuyen huong den trang admin
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Error signing up:", error);
+    }
   };
 
   // const handleClickLogin = () => {
@@ -74,29 +103,29 @@ const SignUp = () => {
             <TextField
               label="Ho_ten"
               fullWidth
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               required
             />
           </Box>
-          <Box mb={2}>
-            <TextField
-              label="SDT"
-              fullWidth
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              required
+          <Button variant="contained" component="label">
+            Chọn Avatar
+            <input
+              type="file"
+              hidden
+              accept="image/*"
+              onChange={(e) => setAvatar(e.target.files?.[0] || null)}
             />
-          </Box>
-          <Box mb={2}>
-            <TextField
-              label="Ngày sinh"
-              fullWidth
-              value={birthday}
-              onChange={(e) => setBirthday(e.target.value)}
-              required
-            />
-          </Box>
+          </Button>
+
+          {avatar && (
+            <div style={{ marginTop: 10 }}>
+              <Avatar
+                src={URL.createObjectURL(avatar)}
+                sx={{ width: 64, height: 64 }}
+              />
+            </div>
+          )}
           <Button variant="contained" color="primary" type="submit" fullWidth>
             Đăng ký
           </Button>
